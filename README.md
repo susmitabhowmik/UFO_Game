@@ -19,6 +19,16 @@ In order to play this game navigate to the Codecademy folder and then in the com
 
 This command should get the game up and running. If at any point you wish to exit the program, you can always quit by pressing the control key and the C key at the same time. To restart the game after exiting type in the command above.
 
+** Testing **
+
+For unit testing I utilized the Ruby gem rspec. To ensure the tests are running correctly please enter the following commands into your terminal
+
+```bundle exec rspec```
+
+If that command does not work, navigate to the spec folder and type into the terminal:
+
+```rspec ufo_spec.rb```
+
 Have fun!
 
 **Questions**
