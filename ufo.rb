@@ -1,3 +1,5 @@
+require 'rspec'
+
 class UFO
   def dictionary
     return File.readlines("dictionary.txt").sample.delete_suffix("\n")
@@ -13,6 +15,26 @@ class UFO
 
   def codeword_with_spaces(codeword)
     return codeword.scan(/.{1}/).join(' ')
+  end
+
+  def single_letter(input)
+    if (input =~ /\b[[:alpha:]]\b/) == nil
+      return false
+    else 
+      return true
+    end
+  end
+
+  def index_array(word,letter)
+    indexes = []
+    i = 0
+    while word.length > i
+      if word[i] == letter
+        indexes << i
+      end
+      i += 1
+    end
+    return indexes
   end
 
   def game 
@@ -118,7 +140,6 @@ class UFO
      "]
   
     @dictionary = UFO.new.dictionary
-    puts @dictionary
     puts "UFO: The Game"
     puts "Instructions: save us from alien abduction by guessing letters in the   codeword."  
     puts @x[0]  
@@ -132,31 +153,25 @@ class UFO
     @correct = []
     
     @iterator = 0
-  
+    
+
     while (@codeword.downcase != @dictionary && @iterator < 6)
       puts "Codeword: #{@codeword_with_spaces}"
       puts "Please enter your guess:"
-  
+
       guess = gets.chomp.downcase
   
-      if (guess =~ /\b[[:alpha:]]\b/) == nil
+      if (UFO.new.single_letter(guess) == false)
         puts "I cannot understand your input. Please guess a single letter." 
        elsif (@codeword_with_spaces.include?(guess.upcase) == true || @incorrect.   include?(guess.upcase) == true)  
          puts "You can only guess that l  etter once, please try again."   
        elsif @dictionary.include?(guess) == true  
-         indexes = []
-         i = 0
-         while @dictionary.length > i
-           if @dictionary[i] == guess
-             indexes << i
-           end
-           i += 1
-         end
+         indexes = UFO.new.index_array(@dictionary,guess)
          indexes.each do |index|
            @codeword[index] = guess.upcase
-           @codeword_with_spaces = @codeword.scan(/.{1}/).join(' ')
-           puts @codeword_with_spaces
+           @codeword_with_spaces = UFO.new.codeword_with_spaces(@codeword)
          end 
+         puts @codeword_with_spaces
          if @codeword.downcase == @dictionary
            puts "Correct! You saved the person and earned a medal of honor!"
            puts "The codeword is: #{@dictionary.upcase}"
