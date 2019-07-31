@@ -2,7 +2,7 @@ require './ufo'
 
 RSpec.describe UFO do
   describe '#dictionary' do
-    it 'should return a word contained in the dictionary' do
+    it 'should return a word contained within the dictionary' do
       result = File.readlines("dictionary.txt").grep(/#{UFO.new.dictionary}/).any?
       expect(result).to eq(true)
     end
@@ -51,10 +51,24 @@ RSpec.describe UFO do
   end
 
   describe "#index_array" do
-    it 'should return an array of the indexes at which the letter is contained within a given string' do
+    it 'should return an array of the indexes at which a given letter is contained within a given string' do
       result = UFO.new.index_array("missippi","i")
       expect(result).to eq([1,4,7])
     end
   end
 
+  describe "#string_to_hash" do
+    it 'should take in a string and return a hash with all the letters as the keys and the respective indexes of the letters as the values' do
+      hash1 = UFO.new.string_to_hash("b_k_")
+      result = hash1.to_a
+      expect(result).to eq([["b",0],["k",2]])
+    end
+  end
+
+  describe "#find_words" do
+    it 'should return the number of words that match the codeword in the dictionary during a certain point in the game' do
+      result = UFO.new.find_words("z____r",["Y"])
+      expect(result).to eq(2)
+    end
+  end
 end
